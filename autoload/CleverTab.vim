@@ -4,7 +4,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! CleverTab#Complete(type)
-  "echom "type: " . a:type
+  " echom "type: " . a:type
 
   if a:type == 'start'
     if has("autocmd")
@@ -14,7 +14,7 @@ function! CleverTab#Complete(type)
       augroup END
     endif
     if !exists("g:CleverTab#next_step_direction")
-      echom "Clevertab Start"
+      " echom "Clevertab Start"
       let g:CleverTab#next_step_direction="0"
     endif
     let g:CleverTab#last_cursor_col=virtcol('.')
@@ -30,7 +30,7 @@ function! CleverTab#Complete(type)
   if a:type == 'tab' && !g:CleverTab#stop
     if strpart( getline('.'), 0, col('.')-1 ) !~ '\k' " =~ '^\s*$'
       let g:CleverTab#stop=1
-      echom "Regular Tab"
+      " echom "Regular Tab"
       let g:CleverTab#next_step_direction="0"
       return "\<TAB>"
     endif
@@ -38,7 +38,7 @@ function! CleverTab#Complete(type)
 
   elseif a:type == 'omni' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if &omnifunc != ''
-      echom "Omni Complete"
+      " echom "Omni Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
       return "\<C-X>\<C-O>"
@@ -47,7 +47,7 @@ function! CleverTab#Complete(type)
 
   elseif a:type == 'user' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if &completefunc != ''
-      echom "User Complete"
+      " echom "User Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
       return "\<C-X>\<C-U>"
@@ -55,14 +55,14 @@ function! CleverTab#Complete(type)
 
 
   elseif a:type == 'keyword' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
-    echom "Keyword Complete"
+    " echom "Keyword Complete"
     let g:CleverTab#next_step_direction="P"
     let g:CleverTab#eat_next=1
     return "\<C-P>"
 
 
   elseif a:type == 'neocomplete' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
-    echom "NeoComplete"
+    " echom "NeoComplete"
     let g:CleverTab#next_step_direction="N"
     let g:CleverTab#eat_next=1
     return neocomplete#start_manual_complete()
@@ -71,7 +71,7 @@ function! CleverTab#Complete(type)
   elseif a:type == 'ultisnips' && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     let g:ulti_x = UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
-      echom "Ultisnips"
+      " echom "Ultisnips"
       let g:CleverTab#next_step_direction="0"
       let g:CleverTab#stop=1
       return g:ulti_x
@@ -80,7 +80,7 @@ function! CleverTab#Complete(type)
 
 
   elseif a:type == "forcedtab" && !g:CleverTab#stop
-    echom "Forcedtab"
+    " echom "Forcedtab"
     let g:CleverTab#next_step_direction="0"
     let g:CleverTab#stop=1
     return "\<Tab>"
